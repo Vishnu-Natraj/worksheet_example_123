@@ -6,7 +6,7 @@
     </div>
 </nav> -->
 
-<div class="sidebar" [ngClass]="{ expanded: isExpanded }">
+<div class="sidebar" [ngClass]="{ expanded: isExpanded }" *ngIf="isshow">
   <div class="header">
     <h1 class="title">Activity</h1>
     <div class="toggle">
