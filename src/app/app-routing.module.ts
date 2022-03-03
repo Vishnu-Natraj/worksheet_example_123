@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home';
+import { LogComponent } from './log/log.component';
 import { LoginComponent } from './login';
 import { TaskComponent } from './task/task.component';
 import { UserComponent } from './user/user.component';
@@ -12,6 +13,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'user', component: UserComponent },
     { path: 'task', component: TaskComponent },
+    { path: 'log', component: LogComponent },
 
 
     // otherwise redirect to home

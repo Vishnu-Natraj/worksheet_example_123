@@ -15,6 +15,7 @@ import { LoginComponent } from './login';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserComponent } from './user/user.component';
 import { TaskComponent } from './task/task.component';
+import { LogComponent } from './log/log.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { TaskComponent } from './task/task.component';
     LoginComponent,
     UserComponent,
     TaskComponent,
+    LogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
