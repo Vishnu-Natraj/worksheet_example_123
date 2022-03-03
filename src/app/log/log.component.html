@@ -70,7 +70,8 @@
 <div id="addLogModal" class="modal fade">
 <div class="modal-dialog">
   <div class="modal-content">
-    <form (submit)="addLog()">
+    <!-- <form (submit)="addLog()" > -->
+    <form #f="ngForm" name="form" (ngSubmit)="f.form.valid && addLog()" novalidate>
       <div class="modal-header">
         <h4 class="modal-title">Add Log</h4>
         <button
@@ -84,28 +85,24 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Employee Name</label>
+          <label for="empname" class="form-label">Employee Name</label>
           <input
-            type="text"
-            placeholder="emp name"
-            id="empname"
-            [(ngModel)]="model.empname"
-            name="empname"
-            class="form-control"
-            required
+          type="text" [(ngModel)]="model.empname"
+          name="empname" class="form-control" id="empname" #en="ngModel" [ngClass]="{ 'is-invalid': f.submitted && en.invalid }" required
           />
+          <div *ngIf="f.submitted && en.invalid " class="invalid-feedback">
+          <div *ngIf="en.errors.required ">Employee Name is required</div> 
+          </div>
         </div>
 
         <div class="form-group">
-          <label>Task</label>
+          <label  for="taskname" class="form-label">Task</label>
           <!-- <textarea class="form-control" required></textarea> -->
           <select
-            id="taskDropdown"
-            class="form-control"
-            [(ngModel)]="model.taskname"
-            name="taskname"
-            required
+          type="text" [(ngModel)]="model.taskname"
+          name="taskname" class="form-control" id="taskname" #t="ngModel" [ngClass]="{ 'is-invalid': f.submitted && t.invalid }" required
           >
+          
             <option value="default" selected>Select Task</option>
 
             <option
@@ -114,59 +111,63 @@
             >
               {{ task.taskname }}
             </option>
+            
           </select>
+          <div *ngIf="f.submitted && t.invalid " class="invalid-feedback">
+          <div *ngIf="t.errors.required ">TaskName is required</div> 
+          </div>
         </div>
+
+
         <div class="form-group">
-          <label>Log Date</label>
+          <label for="date" class="form-label">Log Date</label>
           <!-- <input type="text" class="form-control" required /> -->
           <input
-            type="date"
-            placeholder="Log date"
-            id="date"
-            [(ngModel)]="model.date"
-            name="date"
-            class="form-control"
-            required
+          type="date" [(ngModel)]="model.date"
+          name="date" class="form-control" id="date" #d="ngModel" [ngClass]="{ 'is-invalid': f.submitted && d.invalid }" required
           />
+          <div *ngIf="f.submitted && d.invalid " class="invalid-feedback">
+          <div *ngIf="d.errors.required ">Date is required</div> 
+          </div>
         </div>
+
+
         <div class="form-group">
-          <label>Start Time</label>
+          <label for="stime" class="form-label">Start Time</label>
           <input
-            type="Time"
-            placeholder="Start Time"
-            id="stime"
-            [(ngModel)]="model.stime"
-            name="stime"
-            class="form-control"
-            required
+          type="time" [(ngModel)]="model.stime"
+          name="stime" class="form-control" id="stime" #st="ngModel" [ngClass]="{ 'is-invalid': f.submitted && st.invalid }" required
           />
+          <div *ngIf="f.submitted && st.invalid " class="invalid-feedback">
+          <div *ngIf="st.errors.required ">Start Time is required</div> 
+          </div>
         </div>
+
+
         <div class="form-group">
-          <label>End Time</label>
+          <label for="etime" class="form-label">End Time</label>
           <input
-            type="Time"
-            placeholder="End Time"
-            id="etime"
-            [(ngModel)]="model.etime"
-            name="etime"
-            class="form-control"
-            required
+          type="time" [(ngModel)]="model.etime"
+          name="etime" class="form-control" id="etime" #et="ngModel" [ngClass]="{ 'is-invalid': f.submitted && et.invalid }" required
           />
+          <div *ngIf="f.submitted && et.invalid " class="invalid-feedback">
+          <div *ngIf="et.errors.required ">End Time is required</div> 
+          </div>
         </div>
 
         <div class="form-group">
-          <label>Status</label>
+          <label  for="status" class="form-label">Status</label>
           <select
-            id="status"
-            class="form-control"
-            [(ngModel)]="model.status"
-            name="status"
-            required
+          type="text" [(ngModel)]="model.status"
+          name="status" class="form-control" id="status" #s="ngModel" [ngClass]="{ 'is-invalid': f.submitted && s.invalid }" required
           >
             <option value="default" selected>Select Task</option>
             <option selected>Inprogress</option>
             <option>Completed</option>
           </select>
+          <div *ngIf="f.submitted && s.invalid " class="invalid-feedback">
+          <div *ngIf="s.errors.required ">Status is required</div> 
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -182,6 +183,8 @@
   </div>
 </div>
 </div>
+
+
 <!-- Edit Modal HTML -->
 <div id="editLogModal" class="modal fade">
 <a href="#editLogModal" class="btn btn-success" data-toggle="modal"></a>
@@ -200,127 +203,92 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label>Employee Name</label>
-          <input
-            type="text"
-            placeholder="emp name"
-            id="empname"
-            [(ngModel)]="model.empname"
-            name="empname"
-            class="form-control"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Task</label>
-          <!-- <textarea class="form-control" required></textarea> -->
-          <select
-            id="taskDropdown"
-            class="form-control"
-            [(ngModel)]="model.taskname"
-            name="taskname"
-            required
-          >
-            <option value="default" selected>Select Task</option>
-
-            <option
-              *ngFor="let task of tasks"
-              [selected]="task.taskname == 'Select Task'"
-            >
-              {{ task.taskname }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Log Date</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="date"
-            placeholder="Log date"
-            id="date"
-            [(ngModel)]="model.date"
-            name="date"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Start Time</label>
-          <input
-            type="Time"
-            placeholder="Start Time"
-            id="stime"
-            [(ngModel)]="model.stime"
-            name="stime"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>End Time</label>
-          <input
-            type="Time"
-            placeholder="End Time"
-            id="etime"
-            [(ngModel)]="model.etime"
-            name="etime"
-            class="form-control"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Status</label>
-          <select
-            id="status"
-            class="form-control"
-            [(ngModel)]="model.status"
-            name="status"
-            required
-          >
-            <option value="default" selected>Select Task</option>
-            <option selected>Inprogress</option>
-            <option>Completed</option>
-          </select>
-        </div>
+      <div class="form-group">
+      <label for="empname" class="form-label">Employee Name</label>
+      <input
+      type="text" [(ngModel)]="model.empname"
+      name="empname" class="form-control" id="empname" #en="ngModel" [ngClass]="{ 'is-invalid': f.submitted && en.invalid }" required
+      />
+      <div *ngIf="f.submitted && en.invalid " class="invalid-feedback">
+      <div *ngIf="en.errors.required ">Employee Name is required</div> 
       </div>
-      <div class="modal-footer">
-        <input
-          type="button"
-          class="btn btn-default"
-          data-dismiss="modal"
-          value="Cancel"
-        />
-        <input type="submit" #btnId class="btn btn-info" value="Save" />
-      </div>
-    </form>
-  </div>
-</div>
-</div>
-<!-- Delete Modal HTML -->
-<div id="deleteLogModal" class="modal fade">
-<div class="modal-dialog">
-  <div class="modal-content">
-    <form id="deleteprofile" (submit)="remove()">
-      <div class="modal-header">
-        <h4 class="modal-title">Delete Log</h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-hidden="true"
+    </div>
+
+    <div class="form-group">
+      <label  for="taskname" class="form-label">Task</label>
+      <!-- <textarea class="form-control" required></textarea> -->
+      <select
+      type="text" [(ngModel)]="model.taskname"
+      name="taskname" class="form-control" id="taskname" #t="ngModel" [ngClass]="{ 'is-invalid': f.submitted && t.invalid }" required
+      >
+      
+        <option value="default" selected>Select Task</option>
+
+        <option
+          *ngFor="let task of tasks"
+          [selected]="task.taskname == 'Select Task'"
         >
-          &times;
-        </button>
+          {{ task.taskname }}
+        </option>
+        
+      </select>
+      <div *ngIf="f.submitted && t.invalid " class="invalid-feedback">
+      <div *ngIf="t.errors.required ">TaskName is required</div> 
       </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete these Records?</p>
-        <p class="text-warning">
-          <small>This action cannot be undone.</small>
-        </p>
+    </div>
+
+
+    <div class="form-group">
+      <label for="date" class="form-label">Log Date</label>
+      <!-- <input type="text" class="form-control" required /> -->
+      <input
+      type="date" [(ngModel)]="model.date"
+      name="date" class="form-control" id="date" #d="ngModel" [ngClass]="{ 'is-invalid': f.submitted && d.invalid }" required
+      />
+      <div *ngIf="f.submitted && d.invalid " class="invalid-feedback">
+      <div *ngIf="d.errors.required ">Date is required</div> 
       </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="stime" class="form-label">Start Time</label>
+      <input
+      type="time" [(ngModel)]="model.stime"
+      name="stime" class="form-control" id="stime" #st="ngModel" [ngClass]="{ 'is-invalid': f.submitted && st.invalid }" required
+      />
+      <div *ngIf="f.submitted && st.invalid " class="invalid-feedback">
+      <div *ngIf="st.errors.required ">Start Time is required</div> 
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="etime" class="form-label">End Time</label>
+      <input
+      type="time" [(ngModel)]="model.etime"
+      name="etime" class="form-control" id="etime" #et="ngModel" [ngClass]="{ 'is-invalid': f.submitted && et.invalid }" required
+      />
+      <div *ngIf="f.submitted && et.invalid " class="invalid-feedback">
+      <div *ngIf="et.errors.required ">End Time is required</div> 
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label  for="status" class="form-label">Status</label>
+      <select
+      type="text" [(ngModel)]="model.status"
+      name="status" class="form-control" id="status" #s="ngModel" [ngClass]="{ 'is-invalid': f.submitted && s.invalid }" required
+      >
+        <option value="default" selected>Select Task</option>
+        <option selected>Inprogress</option>
+        <option>Completed</option>
+      </select>
+      <div *ngIf="f.submitted && s.invalid " class="invalid-feedback">
+      <div *ngIf="s.errors.required ">Status is required</div> 
+      </div>
+    </div>
+  </div>
       <div class="modal-footer">
         <input
           type="button"

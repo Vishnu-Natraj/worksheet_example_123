@@ -46,7 +46,7 @@ export class LogComponent implements OnInit {
 
   addLog() {
     if (!this.model.id) {
-      // alert(this.model);
+      alert(this.model);
       console.log(this.model);
       this.logService.createLogService(this.model).subscribe((data) => {
         this.getAllLogs();

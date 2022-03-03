@@ -32,7 +32,7 @@ import { ReportComponent } from './report/report.component';
     SidebarComponent,
     LoginComponent,
     UserComponent,
-    TaskComponent,
+     TaskComponent,
     LogComponent,
     ReportComponent
   ],

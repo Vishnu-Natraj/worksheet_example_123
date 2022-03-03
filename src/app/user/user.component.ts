@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 // import { ReactiveFormsModule } from '@angular/forms';
-
 import { FormGroup } from '@angular/forms';
 import { User } from './user';
 import { UserService } from './user.service';
+import { FormBuilder, Validators } from '@angular/forms';
 // import { UserService } from './user.service';
 @Component({
   selector: 'app-user',
@@ -14,22 +14,32 @@ export class UserComponent implements OnInit {
   passwordsMatching: boolean = false;
   isConfirmPasswordDirty: boolean = false;
   confirmPasswordClass: string = 'form-control';
-
   name = 'Angular';
   users = [];
   model = new User();
   editmodel = new User();
-
   @ViewChild('editTaskModal') editTaskModal;
-
   deleteid = 0;
+loginForm: any;
+formBuilder: any;
+returnUrl: any;
+route: any;
+success: string;
   constructor(private userService: UserService) {}
-
+  // ngOnInit() {
+  //   this.model.role = 'User';
+  //   this.getAllUsers();
+  // }
   ngOnInit() {
-    this.model.role = 'User';
-    this.getAllUsers();
-  }
-
+    this.loginForm = this.formBuilder.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+    });
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+}
+// convenience getter for easy access to form fields
+get f() { return this.loginForm.controls; }
   getAllUsers() {
     this.userService.getAllUsersService().subscribe((data: any[]) => {
       console.log(data);
@@ -60,7 +70,6 @@ export class UserComponent implements OnInit {
       this.model = data;
     });
   }
-
   // a(id1)
   deleteUser(id) {
     alert(id);
@@ -73,20 +82,18 @@ export class UserComponent implements OnInit {
       document.getElementById('deleteTaskModal').click();
     });
   }
-
+  submitted = false;
+  onSubmit() {
+    this.submitted = true;    
+  }
   checkPasswords(f): boolean {
     this.isConfirmPasswordDirty = true;
-    console.log(this.model);
-    if (
-      Object.keys(this.model).length !== 0 &&
-      this.model.password === f.cpassword
-    ) {
+    if (this.model.password === this.model.confirmpassword) {
       this.passwordsMatching = true;
       this.confirmPasswordClass = 'form-control is-valid';
       return true;
     } else {
       this.passwordsMatching = false;
-      // this.isConfirmPasswordDirty = false;
       this.confirmPasswordClass = 'form-control is-invalid';
       return false;
     }

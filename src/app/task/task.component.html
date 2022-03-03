@@ -69,7 +69,7 @@
 <div id="addTaskModal" class="modal fade">
 <div class="modal-dialog">
   <div class="modal-content">
-    <form (submit)="addTask()">
+    <form #f="ngForm" name="form" (ngSubmit)="f.form.valid && addTask()" novalidate>
       <div class="modal-header">
         <h4 class="modal-title">Add Task</h4>
         <button
@@ -82,40 +82,35 @@
         </button>
       </div>
       <div class="modal-body">
+
         <div class="form-group">
-          <label>Task Name</label>
+          <label for="taskname" class="form-label">Task Name</label>
           <input
-            type="text"
-            placeholder="task name"
-            id="taskname"
-            [(ngModel)]="model.taskname"
-            name="taskname"
-            class="form-control"
-            required
+          type="text" [(ngModel)]="model.taskname"
+          name="taskname" class="form-control" id="taskname" #tn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && tn.invalid }" required
           />
+          <div *ngIf="f.submitted && tn.invalid " class="invalid-feedback">
+          <div *ngIf="tn.errors.required ">Task Name is required</div> 
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Description</label>
-          <!-- <input type="email" class="form-control" required /> -->
+          <label for="description" class="form-label">Description</label>
           <input
-            type="text"
-            id="description"
-            [(ngModel)]="model.description"
-            name="description"
-            placeholder="description"
-            class="form-control"
-            required
+          type="text" [(ngModel)]="model.description"
+          name="description" class="form-control" id="description" #d="ngModel" [ngClass]="{ 'is-invalid': f.submitted && d.invalid }" required
           />
+          <div *ngIf="f.submitted && d.invalid " class="invalid-feedback">
+          <div *ngIf="d.errors.required ">Description is required</div> 
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Assign To</label>
+          <label for="assigneto" class="form-label">Assigned To</label>
           <!-- <textarea class="form-control" required></textarea> -->
           <select
-            id="userDropdown"
-            class="form-control"
-            [(ngModel)]="model.assigneto"
-            name="assigneto"
-            required
+          type="text" [(ngModel)]="model.assigneto"
+          name="assigneto" class="form-control" id="assigneto" #at="ngModel" [ngClass]="{ 'is-invalid': f.submitted && at.invalid }" required
           >
             <option value="default" selected>Select User</option>
 
@@ -126,33 +121,34 @@
               {{ user.name }}
             </option>
           </select>
+          <div *ngIf="f.submitted && at.invalid " class="invalid-feedback">
+          <div *ngIf="at.errors.required ">Assigned to is required</div> 
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Assigned Date</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="date"
-            placeholder="assignedate"
-            id="assignedate"
-            [(ngModel)]="model.assignedate"
-            name="assignedate"
-            class="form-control"
-            required
-          />
+        <label for="assignedate" class="form-label">Assigned Date</label>
+        <input
+        type="date" [(ngModel)]="model.assignedate"
+        name="assignedate" class="form-control" id="assignedate" #ad="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ad.invalid }" required
+        />
+        <div *ngIf="f.submitted && ad.invalid " class="invalid-feedback">
+        <div *ngIf="ad.errors.required ">Assigned Date is required</div> 
         </div>
-        <div class="form-group">
-          <label>Due Date</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="date"
-            placeholder="duedate"
-            id="duedate"
-            [(ngModel)]="model.duedate"
-            name="duedate"
-            class="form-control"
-            required
-          />
-        </div>
+      </div>
+
+
+      <div class="form-group">
+      <label for="duedate" class="form-label">Due Date</label>
+      <input
+      type="date" [(ngModel)]="model.duedate"
+      name="duedate" class="form-control" id="duedate" #dt="ngModel" [ngClass]="{ 'is-invalid': f.submitted && dt.invalid }" required
+      />
+      <div *ngIf="f.submitted && dt.invalid " class="invalid-feedback">
+      <div *ngIf="dt.errors.required ">Due date is required</div> 
+      </div>
+    </div>
+
       </div>
       <div class="modal-footer">
         <input
@@ -185,73 +181,73 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label>Task Name</label>
-          <input
-            type="text"
-            placeholder="task name"
-            id="taskname"
-            [(ngModel)]="model.taskname"
-            name="taskname"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <!-- <input type="email" class="form-control" required /> -->
-          <input
-            type="text"
-            id="description"
-            [(ngModel)]="model.description"
-            name="description"
-            placeholder="description"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Assign To</label>
-          <!-- <textarea class="form-control" required></textarea> -->
-          <select
-            id="userDropdown"
-            class="form-control"
-            [(ngModel)]="model.assigneto"
-            name="assigneto"
-            required
-          >
-            <option *ngFor="let user of users" [ngValue]="user.name">
-              {{ user.name }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Assigned Date</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="date"
-            placeholder="assignedate"
-            id="assignedate"
-            [(ngModel)]="model.assignedate"
-            name="assignedate"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Due Date</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="date"
-            placeholder="duedate"
-            id="duedate"
-            [(ngModel)]="model.duedate"
-            name="duedate"
-            class="form-control"
-            required
-          />
-        </div>
+      <div class="form-group">
+      <label for="taskname" class="form-label">Task Name</label>
+      <input
+      type="text" [(ngModel)]="model.taskname"
+      name="taskname" class="form-control" id="taskname" #tn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && tn.invalid }" required
+      />
+      <div *ngIf="f.submitted && tn.invalid " class="invalid-feedback">
+      <div *ngIf="tn.errors.required ">Task Name is required</div> 
       </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="form-label">Description</label>
+      <input
+      type="text" [(ngModel)]="model.description"
+      name="description" class="form-control" id="description" #d="ngModel" [ngClass]="{ 'is-invalid': f.submitted && d.invalid }" required
+      />
+      <div *ngIf="f.submitted && d.invalid " class="invalid-feedback">
+      <div *ngIf="d.errors.required ">Description is required</div> 
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="assigneto" class="form-label">Assigned To</label>
+      <!-- <textarea class="form-control" required></textarea> -->
+      <select
+      type="text" [(ngModel)]="model.assigneto"
+      name="assigneto" class="form-control" id="assigneto" #at="ngModel" [ngClass]="{ 'is-invalid': f.submitted && at.invalid }" required
+      >
+        <option value="default" selected>Select User</option>
+
+        <option
+          *ngFor="let user of users"
+          [selected]="user.name == 'Select User'"
+        >
+          {{ user.name }}
+        </option>
+      </select>
+      <div *ngIf="f.submitted && at.invalid " class="invalid-feedback">
+      <div *ngIf="at.errors.required ">Assigned to is required</div> 
+      </div>
+    </div>
+
+    <div class="form-group">
+    <label for="assignedate" class="form-label">Assigned Date</label>
+    <input
+    type="date" [(ngModel)]="model.assignedate"
+    name="assignedate" class="form-control" id="assignedate" #ad="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ad.invalid }" required
+    />
+    <div *ngIf="f.submitted && ad.invalid " class="invalid-feedback">
+    <div *ngIf="ad.errors.required ">Assigned Date is required</div> 
+    </div>
+  </div>
+
+
+  <div class="form-group">
+  <label for="duedate" class="form-label">Due Date</label>
+  <input
+  type="date" [(ngModel)]="model.duedate"
+  name="duedate" class="form-control" id="duedate" #dt="ngModel" [ngClass]="{ 'is-invalid': f.submitted && dt.invalid }" required
+  />
+  <div *ngIf="f.submitted && dt.invalid " class="invalid-feedback">
+  <div *ngIf="dt.errors.required ">Due date is required</div> 
+  </div>
+</div>
+
+  </div>
       <div class="modal-footer">
         <input
           type="button"

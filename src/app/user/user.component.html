@@ -72,7 +72,8 @@
 <div id="addTaskModal" class="modal fade">
 <div class="modal-dialog">
   <div class="modal-content">
-    <form (submit)="addUser()">
+  <form #f="ngForm" name="form" (ngSubmit)="f.form.valid && checkPasswords(f) && addUser()" novalidate>
+    <!-- <form (submit)=" addUser()" name="form" (ngSubmit)="checkPasswords(f) " #f="ngForm"> -->
       <div class="modal-header">
         <h4 class="modal-title">Add User</h4>
         <button
@@ -85,84 +86,87 @@
         </button>
       </div>
       <div class="modal-body">
+      <div class="form-group">
+        <label for="userid" class="form-label">User ID</label>
+        <!-- <input type="text" class="form-control" required /> -->
+        <input
+        type="text" [(ngModel)]="model.userid"
+        name="userid" class="form-control" id="userid" #ui="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ui.invalid }" required
+        />
+        <div *ngIf="f.submitted && ui.invalid " class="invalid-feedback">
+          <div *ngIf="ui.errors.required ">UserID is required</div> 
+          </div>
+      </div>
+
         <div class="form-group">
-          <label>User ID</label>
+          <label for="name" class="form-label">User Name</label>
           <!-- <input type="text" class="form-control" required /> -->
           <input
-            type="text"
-            placeholder="userid"
-            id="userid"
-            [(ngModel)]="model.userid"
-            name="userid"
-            class="form-control"
-            required
+          type="text" [(ngModel)]="model.name"
+          name="name" class="form-control" id="name" #un="ngModel" [ngClass]="{ 'is-invalid': f.submitted && un.invalid }" required
           />
+          <div *ngIf="f.submitted && un.invalid " class="invalid-feedback">
+            <div *ngIf="un.errors.required ">UserName is required</div> 
+            </div>
         </div>
+
         <div class="form-group">
-          <label>User Name</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="text"
-            placeholder="user name"
-            id="name"
-            [(ngModel)]="model.name"
-            name="name"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>E-mail address</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="email"
-            placeholder="email"
-            id="email"
-            [(ngModel)]="model.email"
-            name="email"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <!-- <input type="email" class="form-control" required /> -->
-          <input
-            type="password"
-            id="password"
-            [(ngModel)]="model.password"
-            name="password"
-            placeholder="password"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Confirm Password</label>
-          <!-- <input type="email" class="form-control" required /> -->
-          <input
-            type="password"
-            id="CPassword"
-            placeholder="Password"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Role</label>
-          <!-- <textarea class="form-control" required></textarea> -->
-          <select
-            id="role"
-            class="form-control"
-            [(ngModel)]="model.role"
-            name="role"
-            required
-          >
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-          </select>
+        <label for="email" class="form-label">E-mail address</label>
+        <!-- <input type="text" class="form-control" required /> -->
+        <input
+        type="email" [(ngModel)]="model.email"
+        name="email" class="form-control" id="email" #em="ngModel" [ngClass]="{ 'is-invalid': f.submitted && em.invalid }" required
+        />
+        <div *ngIf="f.submitted && em.invalid " class="invalid-feedback">
+        <div *ngIf="em.errors.required ">Email is required</div> 
         </div>
       </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <!-- <input type="email" class="form-control" required /> -->
+          <input
+          type="password" [(ngModel)]="model.password"
+          name="password" class="form-control" id="password" #pw="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pw.invalid }" required
+          />
+          <div *ngIf="f.submitted && pw.invalid " class="invalid-feedback">
+          <div *ngIf="pw.errors.required ">Password is required</div> 
+          </div>
+        </div>
+
+        <div class="form-group">
+        <label for="confirmpassword" class="form-label">Confirm Password</label>
+        <!-- <input type="email" class="form-control" required /> -->
+        <input
+        type="confirmpassword" [(ngModel)]="model.confirmpassword"
+        name="cpassword" class="form-control" id="cpassword" #cpw="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cpw.invalid }" required
+        />
+        <div *ngIf="f.submitted && cpw.invalid " class="invalid-feedback">
+        <div *ngIf="cpw.errors.required ">Confirm Password is required</div> 
+        </div>
+      </div>
+
+      <div *ngIf='!passwordsMatching && isConfirmPasswordDirty'>
+      Passwords did not match
+      </div>
+
+      <div class="form-group">
+      <label for="role" class="form-label">Role</label>
+      <!-- <textarea class="form-control" required></textarea> -->
+      <select
+      type="role" [(ngModel)]="model.role"
+      name="role" class="form-control" id="role" #ro="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ro.invalid }" required
+      >
+      <div *ngIf="f.submitted && ro.invalid " class="invalid-feedback">
+      <div *ngIf="ro.errors.required ">Role is required</div> 
+      </div>
+        <option value="Admin">Admin</option>
+        <option value="User">User</option>
+      </select>
+    </div>
+    
+  </div>
+
       <div class="modal-footer">
         <input
           type="button"
@@ -170,7 +174,7 @@
           data-dismiss="modal"
           value="Cancel"
         />
-        <input type="submit" class="btn btn-success" value="Add" />
+        <button type="submit" class="btn btn-success" value="Add" [disabled]="name === ''" >Add </button>
       </div>
     </form>
   </div>
@@ -194,84 +198,87 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label>User ID</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="text"
-            placeholder="userid"
-            id="userid"
-            [(ngModel)]="model.userid"
-            name="userid"
-            class="form-control"
-            required
-          />
+      <div class="form-group">
+      <label for="userid" class="form-label">User ID</label>
+      <!-- <input type="text" class="form-control" required /> -->
+      <input
+      type="text" [(ngModel)]="model.userid"
+      name="userid" class="form-control" id="userid" #ui="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ui.invalid }" required
+      />
+      <div *ngIf="f.submitted && ui.invalid " class="invalid-feedback">
+        <div *ngIf="ui.errors.required ">UserID is required</div> 
         </div>
-        <div class="form-group">
-          <label>User Name</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="text"
-            placeholder="user name"
-            id="name"
-            [(ngModel)]="model.name"
-            name="name"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>E-mail address</label>
-          <!-- <input type="text" class="form-control" required /> -->
-          <input
-            type="email"
-            placeholder="email"
-            id="email"
-            [(ngModel)]="model.email"
-            name="email"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <!-- <input type="email" class="form-control" required /> -->
-          <input
-            type="password"
-            id="editPassword"
-            [(ngModel)]="model.password"
-            name="password"
-            placeholder="Password"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Confirm Password</label>
-          <!-- <input type="email" class="form-control" required /> -->
-          <input
-            type="password"
-            id="editCPassword"
-            placeholder="Password"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Role</label>
-          <!-- <textarea class="form-control" required></textarea> -->
-          <select
-            id="role"
-            class="form-control"
-            [(ngModel)]="model.role"
-            name="role"
-            required
-          >
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-          </select>
+    </div>
+
+      <div class="form-group">
+        <label for="name" class="form-label">User Name</label>
+        <!-- <input type="text" class="form-control" required /> -->
+        <input
+        type="text" [(ngModel)]="model.name"
+        name="name" class="form-control" id="name" #un="ngModel" [ngClass]="{ 'is-invalid': f.submitted && un.invalid }" required
+        />
+        <div *ngIf="f.submitted && un.invalid " class="invalid-feedback">
+          <div *ngIf="un.errors.required ">UserName is required</div> 
+          </div>
+      </div>
+
+      <div class="form-group">
+      <label for="email" class="form-label">E-mail address</label>
+      <!-- <input type="text" class="form-control" required /> -->
+      <input
+      type="email" [(ngModel)]="model.email"
+      name="email" class="form-control" id="email" #em="ngModel" [ngClass]="{ 'is-invalid': f.submitted && em.invalid }" required
+      />
+      <div *ngIf="f.submitted && em.invalid " class="invalid-feedback">
+      <div *ngIf="em.errors.required ">Email is required</div> 
+      </div>
+    </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <!-- <input type="email" class="form-control" required /> -->
+        <input
+        type="password" [(ngModel)]="model.password"
+        name="password" class="form-control" id="password" #pw="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pw.invalid }" required
+        />
+        <div *ngIf="f.submitted && pw.invalid " class="invalid-feedback">
+        <div *ngIf="pw.errors.required ">Password is required</div> 
         </div>
       </div>
+
+      <div class="form-group">
+      <label for="confirmpassword" class="form-label">Confirm Password</label>
+      <!-- <input type="email" class="form-control" required /> -->
+      <input
+      type="confirmpassword" [(ngModel)]="model.confirmpassword"
+      name="cpassword" class="form-control" id="cpassword" #cpw="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cpw.invalid }" required
+      />
+      <div *ngIf="f.submitted && cpw.invalid " class="invalid-feedback">
+      <div *ngIf="cpw.errors.required ">Confirm Password is required</div> 
+      </div>
+    </div>
+
+    <div *ngIf='!passwordsMatching && isConfirmPasswordDirty'>
+    Passwords did not match
+    </div>
+
+    <div class="form-group">
+    <label for="role" class="form-label">Role</label>
+    <!-- <textarea class="form-control" required></textarea> -->
+    <select
+    type="role" [(ngModel)]="model.role"
+    name="role" class="form-control" id="role" #ro="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ro.invalid }" required
+    >
+    <div *ngIf="f.submitted && ro.invalid " class="invalid-feedback">
+    <div *ngIf="ro.errors.required ">Role is required</div> 
+    </div>
+      <option value="Admin">Admin</option>
+      <option value="User">User</option>
+    </select>
+  </div>
+  
+</div>
+
       <div class="modal-footer">
         <input
           type="button"
