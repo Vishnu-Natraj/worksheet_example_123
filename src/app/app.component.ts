@@ -6,7 +6,11 @@ import { User } from './_models';
 
 @Component({
   selector: 'app',
-  templateUrl: 'app.component.html',
+  // templateUrl: 'app.component.html',
+  template: `
+  <router-outlet></router-outlet>
+  <my-sidebar></my-sidebar>
+`,
   styleUrls: ['./app.component.scss'],
 })
 
@@ -16,8 +20,8 @@ import { User } from './_models';
 //     styleUrls: ['./sidebar.component.scss'],
 //   })
 export class AppComponent {
-  isshow = true ;
-  
+  isshow = true;
+
   user: User;
   sidebarExpanded = true;
   isExpanded = 'sidebarExpanded';

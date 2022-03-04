@@ -9,14 +9,12 @@ import { AuthenticationService } from '../_services/authentication.service';
 })
 export class SidebarComponent implements OnInit {
   user: User;
-  isshow = false;
-  constructor(
-    private authenticationService: AuthenticationService
-  ) 
-  {
+  isshow = true;
+  constructor(private authenticationService: AuthenticationService) {
     this.authenticationService.user.subscribe((x) => (this.user = x));
   }
   ngOnInit() {}
+  
 
   sidebarExpanded = true;
   isExpanded = 'sidebarExpanded';
@@ -36,6 +34,4 @@ export class SidebarComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
   }
-
-  
 }
