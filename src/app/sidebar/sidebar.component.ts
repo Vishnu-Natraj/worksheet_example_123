@@ -9,10 +9,11 @@ import { AuthenticationService } from '../_services/authentication.service';
 })
 export class SidebarComponent implements OnInit {
   user: User;
-  isshow = true;
+  isshow = false;
   constructor(
     private authenticationService: AuthenticationService
-  ) {
+  ) 
+  {
     this.authenticationService.user.subscribe((x) => (this.user = x));
   }
   ngOnInit() {}
