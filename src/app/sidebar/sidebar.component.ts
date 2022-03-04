@@ -10,12 +10,21 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {}
 
-  @Input() isExpanded: boolean = false;
-  @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+  sidebarExpanded = true;
+  isExpanded = 'sidebarExpanded';
+  toggleSidebar() {
+    'sidebarExpanded = !sidebarExpanded';
+  }
+  handleSidebarToggle = this.sidebarExpanded;
 
-  handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
+  // @Input() isExpanded: boolean = false;
+  // @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  // handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 
   clearLS() {
     localStorage.setItem('wsuser', 'null');
   }
+
+  
 }
