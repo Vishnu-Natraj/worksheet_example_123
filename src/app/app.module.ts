@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
-import { SidebarComponent } from './sidebar/sidebar.component';
+// import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserComponent } from './user/user.component';
 import { TaskComponent } from './task/task.component';
 import { LogComponent } from './log/log.component';
@@ -29,7 +29,7 @@ import { ReportComponent } from './report/report.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    SidebarComponent,
+    // SidebarComponent,
     LoginComponent,
     UserComponent,
      TaskComponent,
