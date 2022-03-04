@@ -9,6 +9,7 @@ import { AuthenticationService } from '../_services/authentication.service';
 })
 export class SidebarComponent implements OnInit {
   user: User;
+  isshow = true;
   constructor(
     private authenticationService: AuthenticationService
   ) {
